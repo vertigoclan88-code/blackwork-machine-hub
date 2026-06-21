@@ -53,6 +53,14 @@ def index():
 def catalog():
     return render_template("catalog.html")
 
+@app.route("/masters")
+def masters():
+    return render_template("masters.html")
+
+@app.route("/setup_finder")
+def setup_finder():
+    return render_template("setup_finder.html")
+
 @app.route("/api/catalog")
 def api_catalog():
     conn = sqlite3.connect("blackwork_hub.db")
@@ -87,6 +95,9 @@ TEXTS = {
         "btn_support": "🛠 ПОДДЕРЖКА",
         "btn_whom": "🎯 КОМУ",
         "btn_contact": "📩 МАСТЕР",
+        "btn_catalog": "🖤 КАТАЛОГ",
+        "btn_masters": "👨‍🎨 МАСТЕРА",
+        "btn_setup": "🔧 SETUP FINDER",
         "btn_ru": "🇷🇺 RU",
         "btn_en": "🇬🇧 EN",
         "btn_back": "« НАЗАД",
@@ -102,6 +113,9 @@ TEXTS = {
         "btn_why": "🔧 WHY US",
         "btn_support": "🛠 SUPPORT",
         "btn_whom": "🎯 WHO",
+        "btn_catalog": "🖤 CATALOG",
+        "btn_masters": "👨‍🎨 MASTERS",
+        "btn_setup": "🔧 SETUP FINDER",
         "btn_contact": "📩 CONTACT",
         "btn_ru": "🇷🇺 RU",
         "btn_en": "🇬🇧 EN",
@@ -112,7 +126,9 @@ TEXTS = {
 def get_main_keyboard(lang):
     t = TEXTS[lang]
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=t["btn_model"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_masters"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/masters")),
+         InlineKeyboardButton(text=t["btn_setup"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/setup_finder"))],
         [InlineKeyboardButton(text=t["btn_rent"], callback_data="rent"),
          InlineKeyboardButton(text=t["btn_why"], callback_data="why")],
         [InlineKeyboardButton(text=t["btn_support"], callback_data="support"),
@@ -125,7 +141,9 @@ def get_main_keyboard(lang):
 def get_back_keyboard(lang):
     t = TEXTS[lang]
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=t["btn_model"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_masters"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/masters"))],
+        [InlineKeyboardButton(text=t["btn_setup"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/setup_finder"))],
         [InlineKeyboardButton(text=t["btn_back"], callback_data="back")],
     ])
 
