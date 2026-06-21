@@ -1,173 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SETUP FINDER — BLACKWORK MACHINE HUB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #080808;
-            --surface: #111111;
-            --text: #e8e8e8;
-            --muted: #888888;
-            --accent: #ff2e2e;
-            --border: #222222;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            max-width: 500px;
-            width: 100%;
-        }
-        h1 {
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            margin-bottom: 10px;
-        }
-        h1 span { color: var(--accent); }
-        .progress {
-            height: 3px;
-            background: var(--border);
-            border-radius: 3px;
-            margin: 30px 0;
-            transition: 0.3s;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--accent);
-            border-radius: 3px;
-            transition: 0.5s;
-        }
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-        }
-        .card h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .option {
-            display: block;
-            width: 100%;
-            padding: 14px 18px;
-            margin-bottom: 10px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            text-align: left;
-            transition: 0.2s;
-        }
-        .option:hover {
-            border-color: var(--accent);
-            background: #1a0a0a;
-        }
-        .result-card {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .result-card .icon { font-size: 4rem; margin-bottom: 20px; }
-        .result-card h2 { font-size: 2rem; margin-bottom: 10px; }
-        .result-card .price {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin: 15px 0;
-        }
-        .btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Finder — BLACKWORK MACHINE HUB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#080808;--surface:#111111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#ff2e2e;}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1rem;}
+.wrap{width:100%;max-width:560px;}
+.finder-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:.6rem;}
+h1{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem;}
+.finder-sub{font-size:.875rem;color:var(--muted);margin-bottom:2.5rem;line-height:1.5;}
+.progress{display:flex;gap:6px;margin-bottom:2.5rem;}
+.progress-dot{height:2px;flex:1;background:var(--border);border-radius:2px;transition:background .3s;}
+.progress-dot.done{background:var(--accent)}
+.progress-dot.active{background:var(--text)}
+.quiz-step{display:none;animation:stepIn .2s ease;}
+.quiz-step.active{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+.step-q{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;margin-bottom:1.5rem;line-height:1.2;}
+.options{display:flex;flex-direction:column;gap:.5rem}
+.opt{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:border-color .15s,background .15s;background:transparent;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.95rem;text-align:left;width:100%;}
+.opt:hover{background:var(--surface);border-color:#333}
+.opt-key{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:16px;}
+.result{display:none;}
+.result-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;margin-bottom:.75rem;}
+.result-name{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem;}
+.result-tagline{font-size:.875rem;color:var(--muted);margin-bottom:2rem;line-height:1.5;}
+.result-specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem;border-radius:3px;overflow:hidden;}
+.spec{background:var(--bg);padding:1rem 1.25rem;}
+.spec-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;}
+.spec-val{font-size:1rem;font-weight:500;}
+.spec-val.price{font-family:'JetBrains Mono',monospace;}
+.result-actions{display:flex;gap:.75rem;flex-wrap:wrap;}
+.btn-primary{font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 2rem;background:var(--accent);color:#fff;border:none;border-radius:3px;text-decoration:none;cursor:pointer;transition:opacity .15s;}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 2rem;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;}
+.btn-ghost:hover{border-color:#333;color:var(--text)}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>SET<span>UP</span></h1>
-        <div class="progress"><div class="progress-fill" id="progress" style="width:0%"></div></div>
-        <div class="card" id="quiz"></div>
+<div class="wrap">
+  <div class="finder-eyebrow">Setup finder</div>
+  <h1>Find your machine</h1>
+  <p class="finder-sub">3 questions — we'll match you with the right model.</p>
+  <div class="progress" id="progress">
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+  <div id="quiz">
+    <div class="quiz-step active" data-step="0">
+      <div class="step-q">What's your primary style?</div>
+      <div class="options">
+        <button class="opt" onclick="answer(0,'blackout')"><span class="opt-key">A</span>Full blackout — solid fills, large areas</button>
+        <button class="opt" onclick="answer(0,'linework')"><span class="opt-key">B</span>Linework / dotwork — precision first</button>
+        <button class="opt" onclick="answer(0,'lettering')"><span class="opt-key">C</span>Dark lettering — tight control</button>
+        <button class="opt" onclick="answer(0,'mixed')"><span class="opt-key">D</span>Mixed — I do it all</button>
+      </div>
     </div>
-    <script>
-        const questions = [
-            { q: "Your primary style?", opts: ["Blackwork", "Dotwork", "Ornamental", "Dark Lettering"], scores: [[2,1,0,0],[0,2,1,0],[0,1,2,1],[0,0,1,2]] },
-            { q: "Your hand pressure?", opts: ["Heavy — I push hard", "Medium — balanced", "Light — gentle touch"], scores: [[2,1,0],[1,2,1],[0,1,2]] },
-            { q: "Average session length?", opts: ["Under 2 hours", "2–4 hours", "4+ hours"], scores: [[1,2,0],[1,1,2],[2,1,0]] }
-        ];
-        
-        const machines = [
-            { name: "VOID REAPER", icon: "🖤", price: "from $300/mo", desc: "Max density. Stroke 4.2mm. For large blackout areas." },
-            { name: "SHADOW WOLF", icon: "⚡", price: "from $350/mo", desc: "Speed & density balance. Stroke 3.8mm. Universal fighter." },
-            { name: "DARK KRISHNA X", icon: "🎯", price: "from $400/mo", desc: "Precision control. Stroke 3.5mm. Dark Lettering specialist." }
-        ];
-        
-        let current = 0, scores = [0, 0, 0];
-        
-        function showQuestion() {
-            if (current >= questions.length) {
-                showResult();
-                return;
-            }
-            let q = questions[current];
-            let pct = (current / questions.length) * 100;
-            document.getElementById('progress').style.width = pct + '%';
-            document.getElementById('quiz').innerHTML = `
-                <h2>${q.q}</h2>
-                ${q.opts.map((o, i) => `<button class="option" onclick="answer(${i})">${o}</button>`).join('')}
-            `;
-        }
-        
-        function answer(idx) {
-            let q = questions[current];
-            for (let i = 0; i < scores.length; i++) {
-                scores[i] += q.scores[idx][i];
-            }
-            current++;
-            showQuestion();
-        }
-        
-        function showResult() {
-            document.getElementById('progress').style.width = '100%';
-            let winner = scores.indexOf(Math.max(...scores));
-            let m = machines[winner];
-            document.getElementById('quiz').innerHTML = `
-                <div class="result-card">
-                    <div class="icon">${m.icon}</div>
-                    <h2>${m.name}</h2>
-                    <p>${m.desc}</p>
-                    <div class="price">${m.price}</div>
-                    <button class="btn" onclick="retake()">Retake Quiz</button>
-                </div>
-            `;
-        }
-        
-        function retake() { current = 0; scores = [0,0,0]; showQuestion(); }
-        
-        showQuestion();
-    </script>
+    <div class="quiz-step" data-step="1">
+      <div class="step-q">How would you describe your hand pressure?</div>
+      <div class="options">
+        <button class="opt" onclick="answer(1,'heavy')"><span class="opt-key">A</span>Heavy — I push hard and fast</button>
+        <button class="opt" onclick="answer(1,'medium')"><span class="opt-key">B</span>Medium — balanced, no extremes</button>
+        <button class="opt" onclick="answer(1,'light')"><span class="opt-key">C</span>Light — slow, deliberate strokes</button>
+      </div>
+    </div>
+    <div class="quiz-step" data-step="2">
+      <div class="step-q">Session length?</div>
+      <div class="options">
+        <button class="opt" onclick="answer(2,'long')"><span class="opt-key">A</span>Long — 4h+ back-to-back</button>
+        <button class="opt" onclick="answer(2,'medium')"><span class="opt-key">B</span>Medium — 2–4h typically</button>
+        <button class="opt" onclick="answer(2,'short')"><span class="opt-key">C</span>Short — under 2h per session</button>
+      </div>
+    </div>
+  </div>
+  <div class="result" id="result">
+    <div class="result-label">Your match</div>
+    <div class="result-name" id="r-name"></div>
+    <div class="result-tagline" id="r-tagline"></div>
+    <div class="result-specs" id="r-specs"></div>
+    <div class="result-actions">
+      <a href="/catalog" class="btn-primary">See in catalog</a>
+      <button class="btn-ghost" onclick="restart()">Retake quiz</button>
+    </div>
+  </div>
+</div>
+<script>
+const MACHINES={'VOID REAPER':{tagline:'Maximum pigment density per pass. Built for artists who cover large areas without mercy.',stroke:'4.2 mm',category:'Blackout',price:'from $300/mo',weight:{blackout:3,heavy:2,long:2,mixed:1}},'SHADOW WOLF':{tagline:'The all-rounder. Balanced stroke, neutral feedback, handles everything from shading to solid fill.',stroke:'3.8 mm',category:'Blackwork',price:'from $350/mo',weight:{mixed:3,medium:2,linework:1}},'DARK KRISHNA X':{tagline:'Surgical control for lettering and fine-detail blackwork. Light hand, precise placement.',stroke:'3.5 mm',category:'Lettering',price:'from $400/mo',weight:{lettering:3,light:2,linework:2,short:1}}};
+let answers=[],current=0;
+function answer(step,val){answers[step]=val;current=step+1;updateProgress();if(current>=3){showResult();return;}document.querySelectorAll('.quiz-step').forEach((el,i)=>el.classList.toggle('active',i===current));}
+function updateProgress(){document.querySelectorAll('.progress-dot').forEach((el,i)=>{el.classList.toggle('done',i<current);el.classList.toggle('active',i===current);});}
+function showResult(){const scores={};Object.keys(MACHINES).forEach(m=>{scores[m]=0;});answers.forEach(a=>{Object.entries(MACHINES).forEach(([m,data])=>{scores[m]+=(data.weight[a]||0);});});const best=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];const m=MACHINES[best];document.getElementById('r-name').textContent=best;document.getElementById('r-tagline').textContent=m.tagline;document.getElementById('r-specs').innerHTML=`<div class="spec"><div class="spec-label">Category</div><div class="spec-val">${m.category}</div></div><div class="spec"><div class="spec-label">Stroke</div><div class="spec-val">${m.stroke}</div></div><div class="spec"><div class="spec-label">Rental</div><div class="spec-val price">${m.price}</div></div><div class="spec"><div class="spec-label">Wireless</div><div class="spec-val">Yes</div></div>`;document.getElementById('quiz').style.display='none';document.getElementById('result').style.display='block';document.querySelector('.finder-sub').style.display='none';document.querySelectorAll('.progress-dot').forEach(el=>el.classList.add('done'));}
+function restart(){answers=[];current=0;document.querySelectorAll('.quiz-step').forEach((el,i)=>el.classList.toggle('active',i===0));updateProgress();document.getElementById('quiz').style.display='';document.getElementById('result').style.display='none';document.querySelector('.finder-sub').style.display='';}
+</script>
 </body>
 </html>
