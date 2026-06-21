@@ -1,16 +1,12 @@
-import os
-import asyncio
-import logging
-import threading
-import sqlite3
+import os, sys, asyncio, logging, threading, sqlite3, json
 from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_ID = os.getenv("ADMIN_ID")
-WEBAPP_URL = os.getenv("WEBAPP_URL", "https://your-app.onrender.com")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8695239375:AAHFzw7kbXJp2vQ40Lam2XcpvMbH7BE1Tp4")
+ADMIN_ID = os.getenv("ADMIN_ID", "7875731370")
 PORT = int(os.getenv("PORT", "10000"))
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://blackwork-machine-hub.onrender.com")
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
@@ -23,54 +19,32 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 dp = Dispatcher()
 
-# ===== DATABASE =====
 def init_db():
     conn = sqlite3.connect("blackwork_hub.db")
     c = conn.cursor()
-    
     c.execute("""CREATE TABLE IF NOT EXISTS catalog
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   name TEXT, description TEXT, price TEXT,
                   category TEXT, is_available BOOLEAN DEFAULT 1)""")
-    
-    c.execute("""CREATE TABLE IF NOT EXISTS masters
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  name TEXT, specialty TEXT, experience TEXT,
-                  rating REAL, bio TEXT)""")
-    
     c.execute("""CREATE TABLE IF NOT EXISTS requests
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  name TEXT, phone TEXT, machine_type TEXT,
+                  name TEXT, phone TEXT, model TEXT,
                   description TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)""")
     
     c.execute("SELECT COUNT(*) FROM catalog")
     if c.fetchone()[0] == 0:
         items = [
-            ("🖤 STEALTH PRO X1", "Professional blackwork machine\nAdjustable needle stroke\nDense packing specialist", "35 000 ₽", "ROTARY", 1),
-            ("⚡ SHADOW MASTER 2000", "Powerful coil machine\nMaximum power for large projects\nBlackwork monster", "28 500 ₽", "COIL", 1),
-            ("🎯 PRECISION LINE V3", "Lightweight rotary\nFine lines & dotwork\nPrecision control", "22 000 ₽", "ROTARY", 1),
-            ("💀 DARK SOUL CUSTOM", "Custom build\nUnique design\nHand-made exclusive", "45 000 ₽", "CUSTOM", 1),
-            ("🔮 VOID REAPER", "Limited edition\nBlackwork specialist\nProfessional series", "55 000 ₽", "LIMITED", 1),
-            ("🐺 SHADOW WOLF", "Signature series\nArtist choice\nPremium quality", "42 000 ₽", "SIGNATURE", 1),
+            ("VOID REAPER", "Max density packing\n4.2mm stroke\nLarge areas", "from $300/mo", "BLACKOUT", 1),
+            ("SHADOW WOLF", "Speed & density balance\n3.8mm stroke\nUniversal fighter", "from $350/mo", "BLACKWORK", 1),
+            ("DARK KRISHNA X", "Precision control\n3.5mm stroke\nDark Lettering", "from $400/mo", "LETTERING", 1),
         ]
         c.executemany("INSERT INTO catalog VALUES (NULL,?,?,?,?,?)", items)
-    
-    c.execute("SELECT COUNT(*) FROM masters")
-    if c.fetchone()[0] == 0:
-        items = [
-            ("ALEXEY INKGOD", "Blackwork, Dotwork", "8 years", 4.9, "Large-scale blackwork projects specialist"),
-            ("MARIA BLACK", "Ornamental, Black&Grey", "5 years", 4.8, "Geometric patterns expert"),
-            ("DMITRY SHADE", "Realism, Blackwork", "10 years", 5.0, "International award-winning artist"),
-            ("DARK KRISHNA X", "Experimental, Dark Art", "12 years", 4.9, "Legendary machine creator"),
-        ]
-        c.executemany("INSERT INTO masters VALUES (NULL,?,?,?,?,?)", items)
     
     conn.commit()
     conn.close()
 
 init_db()
 
-# ===== FLASK ROUTES =====
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -79,130 +53,126 @@ def index():
 def catalog():
     return render_template("catalog.html")
 
-@app.route("/masters")
-def masters():
-    return render_template("masters.html")
-
-@app.route("/setup_finder")
-def setup_finder():
-    return render_template("setup_finder.html")
-
 @app.route("/api/catalog")
 def api_catalog():
     conn = sqlite3.connect("blackwork_hub.db")
     c = conn.cursor()
     c.execute("SELECT * FROM catalog")
     items = [{"id": r[0], "name": r[1], "description": r[2], 
-              "price": r[3], "category": r[4], 
-              "is_available": bool(r[5])} for r in c.fetchall()]
-    conn.close()
-    return jsonify(items)
-
-@app.route("/api/masters")
-def api_masters():
-    conn = sqlite3.connect("blackwork_hub.db")
-    c = conn.cursor()
-    c.execute("SELECT * FROM masters")
-    items = [{"id": r[0], "name": r[1], "specialty": r[2], 
-              "experience": r[3], "rating": r[4], 
-              "bio": r[5]} for r in c.fetchall()]
+              "price": r[3], "category": r[4], "is_available": bool(r[5])} for r in c.fetchall()]
     conn.close()
     return jsonify(items)
 
 @app.route("/api/submit_request", methods=["POST"])
 def submit_request():
     data = request.json
-    name = data.get("name")
-    phone = data.get("phone")
-    machine_type = data.get("machine_type", "")
-    description = data.get("description", "")
-    
-    if not name or not phone:
-        return jsonify({"success": False, "error": "Name and phone required"}), 400
-    
     conn = sqlite3.connect("blackwork_hub.db")
     c = conn.cursor()
-    c.execute("INSERT INTO requests (name, phone, machine_type, description) VALUES (?,?,?,?)",
-              (name, phone, machine_type, description))
-    request_id = c.lastrowid
+    c.execute("INSERT INTO requests (name, phone, model, description) VALUES (?,?,?,?)",
+              (data.get("name",""), data.get("phone",""), data.get("model",""), data.get("description","")))
     conn.commit()
     conn.close()
-    
-    logger.info(f"📝 New request #{request_id} from {name}")
-    return jsonify({"success": True, "request_id": request_id})
+    return jsonify({"success": True})
 
-# ===== TELEGRAM BOT =====
+TEXT_START = """
+<b>CUSTOM BLACKWORK MACHINES FOR RENT</b>
+
+<i>The machine that makes Black Work — real Black Work.</i>
+
+Dense, hard packing in one pass. No spots, no gaps, no re-working the skin.
+
+We don't sell universal machines. We hand-build them for one task — <b>Dark Lettering & Black Work</b>, where density and stability matter more than speed.
+
+3 custom models. Wireless. For any hand, any style.
+"""
+
+TEXT_WHY = """
+<b>WHY OUR MACHINES</b>
+
+<i>Not a modified Chinese machine. An engineering solution for Black Work.</i>
+
+- <b>Stroke geometry tuned for density, not speed</b>
+- <b>Stable on long sessions</b> — tested 3+ hours
+- <b>Fully wireless</b> — total freedom
+- <b>Tuned to YOUR hand</b> — personal calibration before shipping
+- <b>Made by hand, not assembly line</b>
+"""
+
+TEXT_RENT = """
+<b>WHY RENT, NOT BUY</b>
+
+A good Black Work machine costs 2-3 sessions. Not every artist has that upfront — and that's normal.
+
+Session: $150-200
+Rent: <b>from $300/mo</b>
+
+Payback in 1.5-2 sessions, then pure profit on a pro tool.
+
+No big upfront cost. Try, switch if needed. Machine always maintained — our job.
+"""
+
+TEXT_SUPPORT = """
+<b>24/7 SUPPORT</b>
+
+<i>We don't sell hardware and disappear.</i>
+
+The builder is personally in touch from day one:
+
+- Machine tuning for your hand
+- Help with first Black Work sessions
+- Remote diagnostics & maintenance tips
+- Replacement/modification if needed
+- Black Work & Dark Lettering basics training
+
+Worldwide shipping.
+"""
+
+TEXT_FOR_WHOM = """
+<b>WHO IS THIS FOR</b>
+
+- Experienced artists moving into Black Work
+- New artists without budget for pro gear
+- Studios adding Black Work services
+- Anyone unsatisfied with standard machine packing
+"""
+
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
-    webapp_buttons = [
-        [InlineKeyboardButton(text="🛍 CATALOG", web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
-        [InlineKeyboardButton(text="👨‍🎨 MASTERS", web_app=WebAppInfo(url=f"{WEBAPP_URL}/masters"))],
-        [InlineKeyboardButton(text="🔧 SETUP FINDER", web_app=WebAppInfo(url=f"{WEBAPP_URL}/setup_finder"))],
-        [InlineKeyboardButton(text="📝 ORDER CUSTOM", web_app=WebAppInfo(url=WEBAPP_URL))],
-    ]
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="CHOOSE MODEL", web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text="HOW RENT WORKS", callback_data="rent")],
+        [InlineKeyboardButton(text="WHY OUR MACHINES", callback_data="why")],
+        [InlineKeyboardButton(text="24/7 SUPPORT", callback_data="support")],
+        [InlineKeyboardButton(text="WHO IS IT FOR", callback_data="for_whom")],
+        [InlineKeyboardButton(text="CONTACT MASTER", url="https://t.me/rootxi")],
+    ])
     
-    text_buttons = [
-        [InlineKeyboardButton(text="📋 Catalog in Chat", callback_data="catalog_text")],
-        [InlineKeyboardButton(text="👥 Masters in Chat", callback_data="masters_text")],
-        [InlineKeyboardButton(text="💬 Contact", url="https://t.me/BlackWorkTatoo")],
-    ]
-    
-    keyboard = InlineKeyboardMarkup(inline_keyboard=webapp_buttons + text_buttons)
-    
-    await message.answer(
-        f"🖤 <b>BLACKWORK MACHINE HUB</b>\n\n"
-        f"<i>Premium Tattoo Machines for Blackwork Artists</i>\n\n"
-        f"▸ VOID REAPER\n▸ SHADOW WOLF\n▸ DARK KRISHNA X\n\n"
-        f"🌐 {WEBAPP_URL}",
-        parse_mode="HTML",
-        reply_markup=keyboard
-    )
+    await message.answer(TEXT_START, parse_mode="HTML", reply_markup=keyboard)
 
 @dp.callback_query()
 async def process_callback(callback: types.CallbackQuery):
     await callback.answer()
     
-    if callback.data == "catalog_text":
-        conn = sqlite3.connect("blackwork_hub.db")
-        c = conn.cursor()
-        c.execute("SELECT name, description, price, category, is_available FROM catalog")
-        items = c.fetchall()
-        conn.close()
-        
-        text = "🛍 <b>CATALOG</b>\n\n"
-        for name, desc, price, cat, avail in items:
-            status = "✅" if avail else "❌ SOLD OUT"
-            text += f"{status} <b>{name}</b>\n<i>{desc}</i>\n💎 {price} | {cat}\n\n"
-        
-        await callback.message.answer(text, parse_mode="HTML")
+    texts = {
+        "why": TEXT_WHY,
+        "rent": TEXT_RENT,
+        "support": TEXT_SUPPORT,
+        "for_whom": TEXT_FOR_WHOM,
+    }
     
-    elif callback.data == "masters_text":
-        conn = sqlite3.connect("blackwork_hub.db")
-        c = conn.cursor()
-        c.execute("SELECT name, specialty, experience, rating, bio FROM masters")
-        items = c.fetchall()
-        conn.close()
-        
-        text = "👨‍🎨 <b>MASTERS</b>\n\n"
-        for name, spec, exp, rating, bio in items:
-            stars = "⭐" * int(rating)
-            text += f"<b>{name}</b>\n🎯 {spec}\n📅 {exp}\n{stars} {rating}/5\n<i>{bio}</i>\n\n"
-        
-        await callback.message.answer(text, parse_mode="HTML")
+    if callback.data in texts:
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="CHOOSE MODEL", web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        ])
+        await callback.message.answer(texts[callback.data], parse_mode="HTML", reply_markup=keyboard)
 
-# ===== MAIN =====
+def run_flask():
+    app.run(host="0.0.0.0", port=PORT, debug=False, use_reloader=False)
+
 async def main():
     bot = Bot(token=BOT_TOKEN)
-    
-    # Flask в отдельном потоке
-    def run_flask():
-        app.run(host="0.0.0.0", port=PORT, debug=False)
-    
     threading.Thread(target=run_flask, daemon=True).start()
-    
-    # Запуск бота
-    logger.info(f"🤖 Bot started!")
-    logger.info(f"🌐 WebApp: {WEBAPP_URL}")
+    logger.info(f"Bot started! WebApp: {WEBAPP_URL}")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
