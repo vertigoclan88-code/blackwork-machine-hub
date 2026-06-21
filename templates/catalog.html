@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog - BLACKWORK MACHINE HUB</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding:2rem}
+        h1{text-align:center;color:#ff2e2e;margin-bottom:2rem}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
+        .card{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:1.5rem}
+        .card h2{color:#ff2e2e;margin-bottom:0.5rem}
+        .card p{color:#888;margin-bottom:0.5rem}
+        .price{color:#fff;font-size:1.5rem;font-weight:bold}
+        .category{display:inline-block;background:#ff2e2e;color:#fff;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;margin-top:0.5rem}
+    </style>
+</head>
+<body>
+    <h1>🛍 CATALOG</h1>
+    <div class="grid" id="catalog"></div>
+    <script>
+        fetch('/api/catalog')
+            .then(r => r.json())
+            .then(items => {
+                document.getElementById('catalog').innerHTML = items.map(i => `
+                    <div class="card" style="${!i.is_available ? 'opacity:0.5' : ''}">
+                        <h2>${i.name}</h2>
+                        <p>${i.description.replace(/\n/g,'<br>')}</p>
+                        <div class="price">${i.price}</div>
+                        <span class="category">${i.category}</span>
+                        ${!i.is_available ? '<p style="color:#ff2e2e;margin-top:0.5rem">SOLD OUT</p>' : ''}
+                    </div>
+                `).join('');
+            });
+    </script>
+</body>
+</html>

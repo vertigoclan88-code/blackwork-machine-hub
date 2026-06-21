@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masters - BLACKWORK MACHINE HUB</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding:2rem}
+        h1{text-align:center;color:#ff2e2e;margin-bottom:2rem}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
+        .card{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:1.5rem;text-align:center}
+        .card h2{color:#ff2e2e;margin-bottom:0.5rem}
+        .card p{color:#888;margin-bottom:0.25rem}
+        .stars{color:#ffd700}
+    </style>
+</head>
+<body>
+    <h1>👨‍🎨 MASTERS</h1>
+    <div class="grid" id="masters"></div>
+    <script>
+        fetch('/api/masters')
+            .then(r => r.json())
+            .then(items => {
+                document.getElementById('masters').innerHTML = items.map(i => `
+                    <div class="card">
+                        <h2>${i.name}</h2>
+                        <p>🎯 ${i.specialty}</p>
+                        <p>📅 ${i.experience}</p>
+                        <p class="stars">${'⭐'.repeat(Math.floor(i.rating))} ${i.rating}/5</p>
+                        <p style="margin-top:1rem">${i.bio}</p>
+                    </div>
+                `).join('');
+            });
+    </script>
+</body>
+</html>
