@@ -2,37 +2,203 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalog - BLACKWORK MACHINE HUB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CATALOG — BLACKWORK MACHINE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding:2rem}
-        h1{text-align:center;color:#ff2e2e;margin-bottom:2rem}
-        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
-        .card{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:1.5rem}
-        .card h2{color:#ff2e2e;margin-bottom:0.5rem}
-        .card p{color:#888;margin-bottom:0.5rem}
-        .price{color:#fff;font-size:1.5rem;font-weight:bold}
-        .category{display:inline-block;background:#ff2e2e;color:#fff;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;margin-top:0.5rem}
+        :root {
+            --bg: #080808;
+            --surface: #111111;
+            --text: #e8e8e8;
+            --muted: #888888;
+            --accent: #ff2e2e;
+            --border: #222222;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: clamp(40px, 10vw, 70px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+        h1 span { color: var(--accent); }
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 40px;
+        }
+        #catalog-grid {
+            display: grid;
+            gap: 2px;
+            background: var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .card {
+            background: var(--surface);
+            padding: 30px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .card:hover { background: #1a1a1a; }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+        .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 15px; }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn:hover { box-shadow: 0 0 30px rgba(255,46,46,0.4); }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active { display: flex; }
+        .modal-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .modal-box h2 { margin-bottom: 20px; }
+        .modal-box input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 12px;
+        }
+        .modal-box .btn { width: 100%; }
+        .success {
+            display: none;
+            text-align: center;
+            color: #4CAF50;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>🛍 CATALOG</h1>
-    <div class="grid" id="catalog"></div>
+    <div class="container">
+        <h1>CAT<span>ALOG</span></h1>
+        <p class="subtitle">Select Your Machine</p>
+        <div id="catalog-grid"><p style="text-align:center;color:var(--muted);padding:40px">Loading...</p></div>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <h2>Request Machine</h2>
+            <input type="text" id="req-name" placeholder="Your Name">
+            <input type="tel" id="req-phone" placeholder="Phone Number">
+            <input type="hidden" id="req-model">
+            <button class="btn" onclick="submitRequest()">Send Request</button>
+            <p style="text-align:center;margin-top:10px"><a href="#" onclick="document.getElementById('modal').classList.remove('active')" style="color:var(--muted)">Cancel</a></p>
+        </div>
+        <div class="success" id="success">✓ Request sent! We'll contact you.</div>
+    </div>
     <script>
         fetch('/api/catalog')
             .then(r => r.json())
             .then(items => {
-                document.getElementById('catalog').innerHTML = items.map(i => `
-                    <div class="card" style="${!i.is_available ? 'opacity:0.5' : ''}">
-                        <h2>${i.name}</h2>
+                document.getElementById('catalog-grid').innerHTML = items.map(i => `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>${i.name}</h3>
+                            <span class="badge">${i.category}</span>
+                        </div>
                         <p>${i.description.replace(/\n/g,'<br>')}</p>
-                        <div class="price">${i.price}</div>
-                        <span class="category">${i.category}</span>
-                        ${!i.is_available ? '<p style="color:#ff2e2e;margin-top:0.5rem">SOLD OUT</p>' : ''}
+                        <div class="card-footer">
+                            <span class="price">${i.price}</span>
+                            <button class="btn" onclick="openModal('${i.name}')">Request</button>
+                        </div>
                     </div>
                 `).join('');
             });
+        
+        function openModal(model) {
+            document.getElementById('req-model').value = model;
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function submitRequest() {
+            const data = {
+                name: document.getElementById('req-name').value,
+                phone: document.getElementById('req-phone').value,
+                model: document.getElementById('req-model').value
+            };
+            if (!data.name || !data.phone) return alert('Fill all fields');
+            fetch('/api/submit_request', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(r => r.json()).then(d => {
+                if (d.success) {
+                    document.querySelector('.modal-box').style.display = 'none';
+                    document.getElementById('success').style.display = 'block';
+                    setTimeout(() => document.getElementById('modal').classList.remove('active'), 2000);
+                }
+            });
+        }
     </script>
 </body>
 </html>

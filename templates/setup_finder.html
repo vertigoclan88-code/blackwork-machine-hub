@@ -2,46 +2,171 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup Finder - BLACKWORK MACHINE HUB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SETUP FINDER — BLACKWORK MACHINE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:100vh}
-        .container{text-align:center;max-width:600px}
-        h1{color:#ff2e2e;margin-bottom:1rem}
-        .option{display:block;width:100%;padding:1rem;margin:0.5rem 0;background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:5px;cursor:pointer}
-        .option.selected{border-color:#ff2e2e;background:#2a0000}
-        .result{display:none;margin-top:2rem;padding:2rem;background:#1a1a1a;border:2px solid #ff2e2e;border-radius:10px}
+        :root {
+            --bg: #080808;
+            --surface: #111111;
+            --text: #e8e8e8;
+            --muted: #888888;
+            --accent: #ff2e2e;
+            --border: #222222;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+        h1 span { color: var(--accent); }
+        .progress {
+            height: 3px;
+            background: var(--border);
+            border-radius: 3px;
+            margin: 30px 0;
+            transition: 0.3s;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            transition: 0.5s;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: block;
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            text-align: left;
+            transition: 0.2s;
+        }
+        .option:hover {
+            border-color: var(--accent);
+            background: #1a0a0a;
+        }
+        .result-card {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .result-card .icon { font-size: 4rem; margin-bottom: 20px; }
+        .result-card h2 { font-size: 2rem; margin-bottom: 10px; }
+        .result-card .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 15px 0;
+        }
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔧 SETUP FINDER</h1>
-        <div id="quiz"></div>
-        <div class="result" id="result"></div>
+        <h1>SET<span>UP</span></h1>
+        <div class="progress"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+        <div class="card" id="quiz"></div>
     </div>
     <script>
         const questions = [
-            {q:"Your style?",opts:["Blackwork","Dotwork","Ornamental","Realism"]},
-            {q:"Size?",opts:["Small","Medium","Large"]},
-            {q:"Priority?",opts:["Precision","Power","Versatility","Ergonomics"]}
+            { q: "Your primary style?", opts: ["Blackwork", "Dotwork", "Ornamental", "Dark Lettering"], scores: [[2,1,0,0],[0,2,1,0],[0,1,2,1],[0,0,1,2]] },
+            { q: "Your hand pressure?", opts: ["Heavy — I push hard", "Medium — balanced", "Light — gentle touch"], scores: [[2,1,0],[1,2,1],[0,1,2]] },
+            { q: "Average session length?", opts: ["Under 2 hours", "2–4 hours", "4+ hours"], scores: [[1,2,0],[1,1,2],[2,1,0]] }
         ];
-        let current=0, answers=[];
         
-        function showQuestion(){
-            if(current>=questions.length){
-                document.getElementById('result').style.display='block';
-                document.getElementById('result').innerHTML='<h2>Recommended: STEALTH PRO X1</h2><p>Professional blackwork machine</p><p style="font-size:2rem;color:#ff2e2e">35 000 ₽</p>';
+        const machines = [
+            { name: "VOID REAPER", icon: "🖤", price: "from $300/mo", desc: "Max density. Stroke 4.2mm. For large blackout areas." },
+            { name: "SHADOW WOLF", icon: "⚡", price: "from $350/mo", desc: "Speed & density balance. Stroke 3.8mm. Universal fighter." },
+            { name: "DARK KRISHNA X", icon: "🎯", price: "from $400/mo", desc: "Precision control. Stroke 3.5mm. Dark Lettering specialist." }
+        ];
+        
+        let current = 0, scores = [0, 0, 0];
+        
+        function showQuestion() {
+            if (current >= questions.length) {
+                showResult();
                 return;
             }
-            let q=questions[current];
-            document.getElementById('quiz').innerHTML=`
+            let q = questions[current];
+            let pct = (current / questions.length) * 100;
+            document.getElementById('progress').style.width = pct + '%';
+            document.getElementById('quiz').innerHTML = `
                 <h2>${q.q}</h2>
-                ${q.opts.map(o=>`<button class="option" onclick="next('${o}')">${o}</button>`).join('')}
+                ${q.opts.map((o, i) => `<button class="option" onclick="answer(${i})">${o}</button>`).join('')}
             `;
         }
         
-        function next(a){answers.push(a);current++;showQuestion()}
+        function answer(idx) {
+            let q = questions[current];
+            for (let i = 0; i < scores.length; i++) {
+                scores[i] += q.scores[idx][i];
+            }
+            current++;
+            showQuestion();
+        }
+        
+        function showResult() {
+            document.getElementById('progress').style.width = '100%';
+            let winner = scores.indexOf(Math.max(...scores));
+            let m = machines[winner];
+            document.getElementById('quiz').innerHTML = `
+                <div class="result-card">
+                    <div class="icon">${m.icon}</div>
+                    <h2>${m.name}</h2>
+                    <p>${m.desc}</p>
+                    <div class="price">${m.price}</div>
+                    <button class="btn" onclick="retake()">Retake Quiz</button>
+                </div>
+            `;
+        }
+        
+        function retake() { current = 0; scores = [0,0,0]; showQuestion(); }
+        
         showQuestion();
     </script>
 </body>

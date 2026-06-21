@@ -2,25 +2,230 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BLACKWORK MACHINE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-        .container{text-align:center;padding:2rem}
-        h1{font-size:3rem;color:#ff2e2e;margin-bottom:1rem}
-        p{color:#888;font-size:1.2rem;margin-bottom:2rem}
-        .btn{display:inline-block;padding:1rem 2rem;background:#ff2e2e;color:#fff;text-decoration:none;border-radius:5px;margin:0.5rem}
+        :root {
+            --bg: #080808;
+            --surface: #111111;
+            --text: #e8e8e8;
+            --muted: #888888;
+            --accent: #ff2e2e;
+            --border: #222222;
+            --radius: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        .ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-track {
+            display: flex;
+            gap: 60px;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            display: inline-block;
+            border: 1px solid rgba(255,46,46,0.3);
+            color: var(--accent);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        .hero h1 {
+            font-size: clamp(60px, 15vw, 120px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+        .hero h1 span {
+            color: var(--accent);
+        }
+        .hero p {
+            color: var(--muted);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .machine-card {
+            background: var(--surface);
+            padding: 30px 25px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .machine-card:hover {
+            background: #1a1a1a;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(255,46,46,0.1);
+        }
+        .machine-card .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .machine-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .machine-card .specs {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .machine-card .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .stat {
+            background: var(--surface);
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🖤 BLACKWORK MACHINE HUB</h1>
-        <p>VOID REAPER • SHADOW WOLF • DARK KRISHNA X</p>
-        <p>Premium Tattoo Machines for Blackwork Artists</p>
-        <a href="/catalog" class="btn">CATALOG</a>
-        <a href="/masters" class="btn">MASTERS</a>
-        <a href="/setup_finder" class="btn">SETUP FINDER</a>
+    <div class="ticker">
+        <div class="ticker-track">
+            VOID REAPER · 4.2MM · BLACKOUT &nbsp;&nbsp; SHADOW WOLF · 3.8MM · BLACKWORK &nbsp;&nbsp; DARK KRISHNA X · 3.5MM · LETTERING &nbsp;&nbsp;
+            VOID REAPER · 4.2MM · BLACKOUT &nbsp;&nbsp; SHADOW WOLF · 3.8MM · BLACKWORK &nbsp;&nbsp; DARK KRISHNA X · 3.5MM · LETTERING &nbsp;&nbsp;
+        </div>
     </div>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-badge">✦ Premium Rental</div>
+            <h1>BLACK<span>WORK</span></h1>
+            <p>Tattoo Machines</p>
+        </div>
+        <div class="machines-grid">
+            <div class="machine-card">
+                <div class="icon">🖤</div>
+                <h3>VOID REAPER</h3>
+                <div class="specs">Stroke 4.2mm · Blackout</div>
+                <div class="price">from $300/mo</div>
+            </div>
+            <div class="machine-card">
+                <div class="icon">⚡</div>
+                <h3>SHADOW WOLF</h3>
+                <div class="specs">Stroke 3.8mm · All-Round</div>
+                <div class="price">from $350/mo</div>
+            </div>
+            <div class="machine-card">
+                <div class="icon">🎯</div>
+                <h3>DARK KRISHNA X</h3>
+                <div class="specs">Stroke 3.5mm · Lettering</div>
+                <div class="price">from $400/mo</div>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">15+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Support</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Machines Built</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Worldwide</div>
+            </div>
+        </div>
+    </div>
+    <footer>BLACKWORK MACHINE HUB © 2026</footer>
 </body>
 </html>
