@@ -87,3 +87,29 @@ h1 {
   border-color:#8b0000 !important;
   box-shadow:0 0 20px rgba(255,46,46,.15),inset 0 0 20px rgba(255,46,46,.05) !important;
 }
+
+/* 🔮 Анимированные руны при наведении */
+.card, .model-item, .master-card, .opt {
+  position:relative;
+  overflow:hidden;
+}
+.card::after, .model-item::after, .master-card::after, .opt::after {
+  content:'ᛟ';
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:14px;
+  color:rgba(255,46,46,0);
+  transition:color .4s,text-shadow .4s,transform .4s;
+  pointer-events:none;
+  font-family:serif;
+}
+.card:hover::after, .model-item:hover::after, .master-card:hover::after, .opt:hover::after {
+  color:rgba(255,46,46,.8);
+  text-shadow:0 0 10px rgba(255,46,46,.6),0 0 25px rgba(255,0,0,.3);
+  transform:rotate(15deg) scale(1.4);
+}
+.card:nth-child(2n)::after { content:'ᚹ'; }
+.card:nth-child(3n)::after { content:'ᛏ'; }
+.card:nth-child(4n)::after { content:'ᛉ'; }
+.card:nth-child(5n)::after { content:'ᛗ'; }

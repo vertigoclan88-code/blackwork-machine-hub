@@ -3,47 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catalog — BLACKWORK MACHINE HUB</title>
+<title>Catalog — BLACKWORK TATTOO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#080808;--surface:#111111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#ff2e2e;}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:3rem 5vw;}
-.page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem;}
-.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem;}
+:root{--bg:#080808;--surface:#111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#e63946;--gold:#bfa36a}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:3rem 5vw}
+.page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem}
+.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem}
 h1{font-size:2.5rem;font-weight:700;letter-spacing:-.03em}
-.header-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-align:right;line-height:1.8;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
-.card{background:var(--bg);padding:2rem;position:relative;transition:background .2s;display:flex;flex-direction:column;}
-.card:hover{background:var(--surface)}
+.header-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-align:right;line-height:1.8}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.card{background:var(--bg);transition:background .2s,transform .35s,box-shadow .35s;display:flex;flex-direction:column}
+.card:hover{background:var(--surface);transform:translateY(-8px);box-shadow:0 0 40px rgba(230,57,70,.08),0 0 100px rgba(230,57,70,.03);z-index:1}
 .card.unavailable{opacity:.4;pointer-events:none}
-.card-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:1.25rem;}
-.card-name{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem;line-height:1.1;}
-.card-desc{font-size:.875rem;color:var(--muted);line-height:1.6;margin-bottom:auto;padding-bottom:1.5rem;}
-.card-desc span{display:block;margin-bottom:.25rem;}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--border);}
-.card-price{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);}
-.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.5rem 1.25rem;background:var(--accent);color:#fff;border:none;border-radius:2px;cursor:pointer;transition:opacity .15s;}
-.card-cta:hover{opacity:.8}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;}
+.machine-image{width:100%;height:260px;object-fit:cover;border-bottom:1px solid var(--border);background:var(--surface)}
+.card-body{padding:2rem;flex:1;display:flex;flex-direction:column}
+.card-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem}
+.card-name{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem;line-height:1.1}
+.card-desc{font-size:.875rem;color:var(--muted);line-height:1.6;margin-bottom:auto;padding-bottom:1.5rem}
+.card-desc span{display:block;margin-bottom:.25rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--border)}
+.card-price{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--gold)}
+.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.5rem 1.25rem;background:var(--accent);color:#fff;border:none;border-radius:2px;cursor:pointer;transition:opacity .15s,box-shadow .15s}
+.card-cta:hover{opacity:.9;box-shadow:0 0 20px rgba(230,57,70,.3)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center}
 .modal-bg.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);max-width:500px;width:90%;padding:2.5rem;border-radius:4px;}
-.modal h2{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.5rem;}
+.modal{background:var(--surface);border:1px solid var(--border);max-width:500px;width:90%;padding:2.5rem;border-radius:4px}
+.modal h2{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.5rem}
 .modal p{font-size:.875rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.5}
 .form-group{margin-bottom:1rem}
-.form-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;}
-.form-group input,.form-group textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.9rem;padding:.75rem 1rem;border-radius:2px;outline:none;transition:border-color .15s;}
-.form-group input:focus,.form-group textarea:focus{border-color:#333}
+.form-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
+.form-group input,.form-group textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.9rem;padding:.75rem 1rem;border-radius:2px;outline:none;transition:border-color .15s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--gold)}
 .form-group textarea{resize:vertical;min-height:80px}
-.modal-actions{display:flex;gap:.75rem;margin-top:1.5rem;}
-.btn-cancel{flex:1;padding:.75rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.875rem;border-radius:2px;cursor:pointer;}
-.btn-submit{flex:2;padding:.75rem;background:var(--accent);border:none;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;border-radius:2px;cursor:pointer;transition:opacity .15s;}
-.btn-submit:hover{opacity:.85}
-.success-msg{display:none;text-align:center;padding:1rem 0;color:var(--text);}
-.loading{grid-column:1/-1;padding:4rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--muted);}
+.modal-actions{display:flex;gap:.75rem;margin-top:1.5rem}
+.btn-cancel{flex:1;padding:.75rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.875rem;border-radius:2px;cursor:pointer}
+.btn-submit{flex:2;padding:.75rem;background:var(--accent);border:none;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;border-radius:2px;cursor:pointer;transition:opacity .15s,box-shadow .15s}
+.btn-submit:hover{opacity:.9;box-shadow:0 0 20px rgba(230,57,70,.3)}
+.success-msg{display:none;text-align:center;padding:1rem 0;color:var(--text)}
+.success-msg .check{color:var(--gold);font-size:2rem;margin-bottom:.75rem}
+.loading{grid-column:1/-1;padding:4rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--muted)}
 @media(max-width:640px){body{padding:2rem 1rem}.page-header{flex-direction:column;align-items:flex-start}.header-meta{text-align:left}}
 </style>
+<link rel="stylesheet" href="/static/css/ritual.css">
 </head>
 <body>
 <div class="page-header">
@@ -64,38 +68,42 @@ h1{font-size:2.5rem;font-weight:700;letter-spacing:-.03em}
         <button class="btn-submit" onclick="submitRequest()">Send request</button>
       </div>
     </div>
-    <div class="success-msg" id="success-msg"><div style="font-size:2rem;margin-bottom:.75rem">✓</div><div style="font-weight:500;margin-bottom:.4rem">Request received</div><div style="font-size:.85rem;color:var(--muted)">We'll be in touch soon.</div></div>
+    <div class="success-msg" id="success-msg"><div class="check">✓</div><div style="font-weight:500;margin-bottom:.4rem">Request received</div><div style="font-size:.85rem;color:var(--muted)">We'll be in touch soon.</div></div>
   </div>
 </div>
 <script>
+const images={0:'/static/images/machines/void-reaper.jpg',1:'/static/images/machines/shadow-wolf.jpg',2:'/static/images/machines/dark-krishna-x.jpg'};
 let currentModel='';
 fetch('/api/catalog').then(r=>r.json()).then(items=>{
-  document.getElementById('catalog').innerHTML=items.map(i=>`
+  document.getElementById('catalog').innerHTML=items.map((i,idx)=>`
     <div class="card${!i.is_available?' unavailable':''}">
-      <div class="card-tag">${i.category}</div>
-      <div class="card-name">${i.name}</div>
-      <div class="card-desc">${i.description.split('\n').map(l=>`<span>${l}</span>`).join('')}</div>
-      <div class="card-footer">
-        <div class="card-price">${i.price}</div>
-        ${i.is_available?`<button class="card-cta" onclick="openModal('${i.name.replace(/'/g,"\\'")}')">Request</button>`:''}
+      <img src="${images[idx]||''}" class="machine-image" onerror="this.style.display='none'" alt="${i.name}">
+      <div class="card-body">
+        <div class="card-tag">${i.category}</div>
+        <div class="card-name">${i.name}</div>
+        <div class="card-desc">${i.description.split('\n').map(l=>`<span>${l}</span>`).join('')}</div>
+        <div class="card-footer">
+          <div class="card-price">${i.price}</div>
+          ${i.is_available?`<button class="card-cta" onclick="openModal('${i.name.replace(/'/g,"\\'")}')">Request</button>`:''}
+        </div>
       </div>
     </div>`).join('');
-}).catch(()=>{document.getElementById('catalog').innerHTML='<div class="loading">Failed to load. Refresh the page.</div>';});
-function openModal(name){currentModel=name;document.getElementById('modal-title').textContent=name;document.getElementById('modal').classList.add('open');document.getElementById('modal-form').style.display='';document.getElementById('success-msg').style.display='none';}
-function closeModal(){document.getElementById('modal').classList.remove('open');currentModel='';['f-name','f-phone','f-desc'].forEach(id=>document.getElementById(id).value='');}
+}).catch(()=>{document.getElementById('catalog').innerHTML='<div class="loading">Failed to load. Refresh the page.</div>'});
+function openModal(name){currentModel=name;document.getElementById('modal-title').textContent=name;document.getElementById('modal').classList.add('open');document.getElementById('modal-form').style.display='';document.getElementById('success-msg').style.display='none'}
+function closeModal(){document.getElementById('modal').classList.remove('open');currentModel='';['f-name','f-phone','f-desc'].forEach(id=>document.getElementById(id).value='')}
 async function submitRequest(){
   const name=document.getElementById('f-name').value.trim();
   const phone=document.getElementById('f-phone').value.trim();
   const desc=document.getElementById('f-desc').value.trim();
-  if(!name||!phone){document.getElementById('f-name').style.borderColor=name?'':'var(--accent)';document.getElementById('f-phone').style.borderColor=phone?'':'var(--accent)';return;}
+  if(!name||!phone){document.getElementById('f-name').style.borderColor=name?'':'var(--accent)';document.getElementById('f-phone').style.borderColor=phone?'':'var(--accent)';return}
   const btn=document.querySelector('.btn-submit');btn.textContent='Sending…';btn.disabled=true;
   try{
     await fetch('/api/submit_request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone,model:currentModel,description:desc})});
     document.getElementById('modal-form').style.display='none';document.getElementById('success-msg').style.display='block';
     setTimeout(closeModal,2200);
-  }catch{btn.textContent='Error — try again';}finally{btn.disabled=false;}
+  }catch{btn.textContent='Error — try again'}finally{btn.disabled=false}
 }
-document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()});
 </script>
 </body>
 </html>

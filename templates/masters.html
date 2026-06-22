@@ -3,57 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Masters — BLACKWORK MACHINE HUB</title>
+<title>Master — BLACKWORK TATTOO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#080808;--surface:#111111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#ff2e2e;}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:3rem 5vw;}
-.page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:1rem;}
-.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem;}
-h1{font-size:2.5rem;font-weight:700;letter-spacing:-.03em}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
-.master-card{background:var(--bg);padding:2rem;transition:background .2s;}
-.master-card:hover{background:var(--surface)}
-.master-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;}
-.master-avatar{width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:700;}
-.master-name{font-size:1.1rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.2rem;}
-.master-specialty{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;}
-.master-bio{font-size:.875rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;}
-.master-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1.25rem;border-top:1px solid var(--border);}
-.master-exp{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;}
-.stars{display:flex;gap:2px;}
-.star{width:8px;height:8px;border-radius:50%;background:var(--border);}
-.star.on{background:var(--accent)}
-.rating-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);font-weight:700;margin-left:.4rem;}
-.empty{grid-column:1/-1;padding:4rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--muted);}
-@media(max-width:640px){body{padding:2rem 1rem}}
+:root{--bg:#080808;--surface:#111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#e63946;--gold:#bfa36a}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+.master-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:3rem 2rem}
+.master-photo{width:200px;height:200px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:2rem;background:var(--surface)}
+.master-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
+.master-name{font-size:3rem;font-weight:700;letter-spacing:-.03em;color:var(--gold);margin-bottom:.5rem}
+.master-location{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);letter-spacing:.15em;margin-bottom:.5rem}
+.master-title{font-size:1.2rem;color:var(--muted);letter-spacing:.05em;margin-bottom:2rem}
+.master-bio{max-width:500px;font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:2.5rem}
+.master-stats{display:flex;gap:3rem;margin-bottom:2rem}
+.master-stat{text-align:center}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.75rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
+.btn-primary{font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 2rem;background:var(--accent);color:#fff;border:none;border-radius:3px;text-decoration:none;cursor:pointer;transition:opacity .15s,box-shadow .15s;display:inline-block}
+.btn-primary:hover{opacity:.9;box-shadow:0 0 30px rgba(230,57,70,.3)}
 </style>
+<link rel="stylesheet" href="/static/css/ritual.css">
 </head>
 <body>
-<div class="page-header">
-  <div><div class="page-eyebrow">Who uses our machines</div><h1>Masters</h1></div>
+<div class="master-hero">
+  <img src="/static/images/master/dima-krishna.jpg" class="master-photo" onerror="this.style.background='var(--surface)';this.style.borderColor='var(--border)'" alt="DIMA KRISHNA">
+  <div class="master-eyebrow">Master builder</div>
+  <h1 class="master-name">DIMA KRISHNA</h1>
+  <div class="master-location">GOA · BLACKWORK</div>
+  <div class="master-title">CUSTOM MACHINE CREATOR</div>
+  <p class="master-bio">Hand-building tattoo machines since 2010. Every unit is calibrated personally. Specialized in Blackwork, Dark Lettering, and dense packing — for artists who refuse to compromise on quality.</p>
+  <div class="master-stats">
+    <div class="master-stat"><div class="stat-num">15+</div><div class="stat-label">Years</div></div>
+    <div class="master-stat"><div class="stat-num">1000+</div><div class="stat-label">Machines</div></div>
+    <div class="master-stat"><div class="stat-num">20+</div><div class="stat-label">Countries</div></div>
+  </div>
+  <a href="https://t.me/rootxi" class="btn-primary">Contact master</a>
 </div>
-<div class="grid" id="masters"><div class="empty">Loading…</div></div>
-<script>
-function initials(name){return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
-function renderStars(r){const f=Math.round(r);return Array.from({length:5},(_,i)=>`<div class="star${i<f?' on':''}"></div>`).join('')}
-fetch('/api/masters').then(r=>r.json()).then(items=>{
-  if(!items.length){document.getElementById('masters').innerHTML='<div class="empty">No masters yet</div>';return;}
-  document.getElementById('masters').innerHTML=items.map(i=>`
-    <div class="master-card">
-      <div class="master-header">
-        <div class="master-avatar">${initials(i.name)}</div>
-        <div><div class="master-name">${i.name}</div><div class="master-specialty">${i.specialty}</div></div>
-      </div>
-      <div class="master-bio">${i.bio}</div>
-      <div class="master-footer">
-        <div class="master-exp">${i.experience}</div>
-        <div style="display:flex;align-items:center"><div class="stars">${renderStars(i.rating)}</div><div class="rating-val">${i.rating}</div></div>
-      </div>
-    </div>`).join('');
-}).catch(()=>{document.getElementById('masters').innerHTML='<div class="empty">Failed to load.</div>';});
-</script>
 </body>
 </html>
