@@ -1,0 +1,89 @@
+/* 🔥 RITUAL INTERFACE — BLACKWORK TATTOO */
+/* Живой алтарь технологий */
+
+/* Основной фон с пульсацией */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:url('/static/img/occult_bg.svg') repeat center center;
+  background-size:cover;
+  animation:flicker 8s infinite ease-in-out;
+  opacity:.1;
+  z-index:-1;
+}
+@keyframes flicker {
+  0%,100%{opacity:.06}
+  30%{opacity:.1}
+  60%{opacity:.04}
+  85%{opacity:.12}
+}
+
+/* Дымовой слой */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(255,46,46,.05),transparent 70%);
+  animation:smoke 12s infinite ease-in-out;
+  z-index:-1;
+}
+@keyframes smoke {
+  0%,100%{transform:translateY(0) scale(1)}
+  25%{transform:translateY(-15px) scale(1.02)}
+  50%{transform:translateY(-8px) scale(1)}
+  75%{transform:translateY(-20px) scale(1.03)}
+}
+
+/* Светящиеся элементы */
+.glow {
+  text-shadow:0 0 8px rgba(255,46,46,.6),0 0 20px rgba(255,46,46,.3);
+  color:#ff2e2e;
+  animation:glowPulse 4s infinite ease-in-out;
+}
+@keyframes glowPulse {
+  0%,100%{opacity:1}
+  50%{opacity:.7}
+}
+
+/* Кнопки с ритуальным эффектом крови */
+.btn-primary {
+  background:linear-gradient(90deg,#ff2e2e,#8b0000);
+  box-shadow:0 0 12px rgba(255,46,46,.4);
+  transition:transform .2s,box-shadow .3s,background .3s;
+}
+.btn-primary:hover {
+  transform:translateY(-2px);
+  box-shadow:0 0 25px rgba(255,46,46,.7),0 0 50px rgba(255,46,46,.2);
+  background:linear-gradient(90deg,#ff4444,#a00000);
+}
+
+/* Карточки с ритуальным свечением */
+.card:hover, .model-item:hover {
+  box-shadow:0 0 30px rgba(255,46,46,.15),0 0 60px rgba(139,0,0,.1) !important;
+}
+
+/* Плавные переходы для всего */
+* {
+  transition:background .3s,color .3s,border-color .3s,opacity .3s,transform .3s,box-shadow .3s;
+}
+
+/* Пульсация для лого */
+.logo {
+  animation:logoPulse 5s infinite ease-in-out;
+}
+@keyframes logoPulse {
+  0%,100%{text-shadow:0 0 10px rgba(191,163,106,.25),0 0 30px rgba(191,163,106,.12)}
+  50%{text-shadow:0 0 20px rgba(191,163,106,.5),0 0 60px rgba(191,163,106,.25)}
+}
+
+/* Свечение для hero-заголовка */
+h1 {
+  text-shadow:0 0 30px rgba(255,46,46,.1),0 0 60px rgba(139,0,0,.05);
+}
+
+/* Анимация для кнопок-призраков */
+.btn-ghost:hover {
+  border-color:#8b0000 !important;
+  box-shadow:0 0 20px rgba(255,46,46,.15),inset 0 0 20px rgba(255,46,46,.05) !important;
+}
