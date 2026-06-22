@@ -78,13 +78,13 @@ h1 em{font-style:normal;color:var(--accent)}
 </nav>
 <div class="ticker-wrap">
   <div class="ticker">
-    <span class="hi">VOID REAPER</span><span>4.2mm · blackout</span>
-    <span class="hi">SHADOW WOLF</span><span>3.8mm · universal</span>
-    <span class="hi">DARK KRISHNA X</span><span>3.5mm · lettering</span>
+    <span class="hi">VOID REAPER</span><span>4.2mm blackout</span>
+    <span class="hi">SHADOW WOLF</span><span>3.8mm universal</span>
+    <span class="hi">DARK KRISHNA X</span><span>3.5mm lettering</span>
     <span>worldwide</span><span>from $300/mo</span>
-    <span class="hi">VOID REAPER</span><span>4.2mm · blackout</span>
-    <span class="hi">SHADOW WOLF</span><span>3.8mm · universal</span>
-    <span class="hi">DARK KRISHNA X</span><span>3.5mm · lettering</span>
+    <span class="hi">VOID REAPER</span><span>4.2mm blackout</span>
+    <span class="hi">SHADOW WOLF</span><span>3.8mm universal</span>
+    <span class="hi">DARK KRISHNA X</span><span>3.5mm lettering</span>
     <span>worldwide</span><span>from $300/mo</span>
   </div>
 </div>
@@ -92,7 +92,7 @@ h1 em{font-style:normal;color:var(--accent)}
   <video autoplay muted loop playsinline class="hero-video">
     <source src="/static/video/blackwork.mp4" type="video/mp4">
   </video>
-  <p class="hero-eyebrow fade-in">Goa · Custom tattoo machines</p>
+  <p class="hero-eyebrow fade-in">Goa - Custom tattoo machines</p>
   <h1 class="fade-in">BLACKWORK<br><em>TATTOO</em></h1>
   <p class="hero-tagline fade-in">CUSTOM MACHINES FOR ELITE ARTISTS</p>
   <p class="hero-sub fade-in">Hand-built for density. Engineered from scratch for Dark Lettering and Blackwork artists who don't compromise.</p>
@@ -102,27 +102,27 @@ h1 em{font-style:normal;color:var(--accent)}
   </div>
 </section>
 <div class="models fade-in">
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackout</div><div class="model-name">VOID REAPER</div><div class="model-spec">Stroke 4.2mm · large areas</div><div class="model-price">from $300/mo</div></div>
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackwork</div><div class="model-name">SHADOW WOLF</div><div class="model-spec">Stroke 3.8mm · universal</div><div class="model-price">from $350/mo</div></div>
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Lettering</div><div class="model-name">DARK KRISHNA X</div><div class="model-spec">Stroke 3.5mm · precision</div><div class="model-price">from $400/mo</div></div>
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackout</div><div class="model-name">VOID REAPER</div><div class="model-spec">Stroke 4.2mm - large areas</div><div class="model-price">from $300/mo</div></div>
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackwork</div><div class="model-name">SHADOW WOLF</div><div class="model-spec">Stroke 3.8mm - universal</div><div class="model-price">from $350/mo</div></div>
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Lettering</div><div class="model-name">DARK KRISHNA X</div><div class="model-spec">Stroke 3.5mm - precision</div><div class="model-price">from $400/mo</div></div>
 </div>
 <div class="stats fade-in">
   <div class="stat"><div class="stat-num">3</div><div class="stat-label">Custom models</div></div>
   <div class="stat"><div class="stat-num">3h+</div><div class="stat-label">Burn-in tested</div></div>
-  <div class="stat"><div class="stat-num">1–2</div><div class="stat-label">Sessions to break even</div></div>
-  <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Support included</div></div>
+  <div class="stat"><div class="stat-num">1-2</div><div class="stat-label">Sessions to break even</div></div>
+  <div class="stat"><div class="stat-num">inf</div><div class="stat-label">Support included</div></div>
 </div>
 <footer class="footer">
   <div class="footer-brand">BLACKWORK TATTOO</div>
-  <div class="footer-copy">GOA • WORLDWIDE • CUSTOM MACHINES</div>
+  <div class="footer-copy">GOA - WORLDWIDE - CUSTOM MACHINES</div>
   <div class="footer-links"><a href="https://t.me/BlackWorkTattooBot">@BlackWorkTattooBot</a></div>
 </footer>
 <script>
-if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand()}
-document.addEventListener('mousemove',e=>{const g=document.getElementById('cursor-glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'})
-window.addEventListener('load',()=>{setTimeout(()=>{const l=document.getElementById('loader');l.style.opacity='0';setTimeout(()=>l.remove(),800)},800)})
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1})
-document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el))
+if(window.Telegram&&window.Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand()}
+document.addEventListener('mousemove',function(e){var g=document.getElementById('cursor-glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'})
+window.addEventListener('load',function(){setTimeout(function(){var l=document.getElementById('loader');l.style.opacity='0';setTimeout(function(){l.remove()},800)},800)})
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1})
+document.querySelectorAll('.fade-in').forEach(function(el){obs.observe(el)})
 </script>
 </body>
 </html>
