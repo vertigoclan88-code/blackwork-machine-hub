@@ -92,9 +92,22 @@ def catalog():
 def masters():
     return render_template("masters.html")
 
+@app.route("/models")
+def models():
+    return render_template("models.html")
+
 @app.route("/setup_finder")
 def setup_finder():
     return render_template("setup_finder.html")
+
+@app.route("/api/masters")
+def api_masters():
+    masters_data = [
+        {"name": "DIMA KRISHNA", "specialty": "Blackwork, Dark Lettering", "experience": "15 years", "rating": 5.0, "bio": "Custom machine creator. Hand-built every unit since 2010."},
+        {"name": "ALEXEY INKGOD", "specialty": "Blackwork, Dotwork", "experience": "8 years", "rating": 4.9, "bio": "Large-scale blackwork projects specialist."},
+        {"name": "MARIA BLACK", "specialty": "Ornamental, Black&Grey", "experience": "5 years", "rating": 4.8, "bio": "Geometric patterns and abstract designs."},
+    ]
+    return jsonify(masters_data)
 
 @app.route("/api/catalog")
 def api_catalog():
