@@ -2,75 +2,126 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>BLACKWORK TATTOO</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080808;color:#e8e8e8;font-family:'Space Grotesk',sans-serif;min-height:100vh}
-.nav{position:fixed;top:0;left:0;right:0;height:60px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;background:rgba(0,0,0,.8);z-index:100}
-.logo{font-size:18px;font-weight:700;color:#bfa36a}
-.nav-links a{color:#ddd;text-decoration:none;margin-left:20px;font-size:14px}
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 5vw 60px;text-align:center}
-h1{font-size:clamp(3rem,10vw,7rem);font-weight:700;line-height:.9;margin-bottom:1rem}
-h1 em{color:#e63946;font-style:normal}
-.hero-sub{color:#555;max-width:500px;margin:0 auto 2rem;font-size:1rem;line-height:1.6}
-.btn{display:inline-block;padding:14px 30px;background:#e63946;color:#fff;text-decoration:none;border-radius:3px;margin:10px;font-weight:500;letter-spacing:1px}
-.btn-outline{background:transparent;border:1px solid #333;color:#ddd}
-.models{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #1e1e1e}
-.model-item{padding:30px;border-right:1px solid #1e1e1e;text-align:center;cursor:pointer;transition:.3s}
-.model-item:hover{background:#111}
+:root{--bg:#080808;--surface:#111;--border:#1e1e1e;--text:#e8e8e8;--muted:#555;--accent:#e63946;--gold:#bfa36a}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:url("https://grainy-gradients.vercel.app/noise.svg");mix-blend-mode:overlay;z-index:9999}
+#cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(191,163,106,.18),transparent 70%);transform:translate(-50%,-50%);z-index:998;display:none}
+@media (hover:hover){#cursor-glow{display:block}}
+@media (hover:none){#cursor-glow{display:none}}
+#loader{position:fixed;inset:0;background:#000;display:flex;justify-content:center;align-items:center;font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--gold);letter-spacing:.15em;z-index:99999;transition:opacity .8s ease}
+.nav{position:fixed;top:0;left:0;right:0;height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 40px;backdrop-filter:blur(20px);background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.05);z-index:999}
+.logo{font-size:20px;font-weight:700;letter-spacing:.15em;color:var(--gold);text-shadow:0 0 10px rgba(191,163,106,.25),0 0 30px rgba(191,163,106,.12)}
+.nav-links{display:flex;gap:30px}
+.nav-links a{color:#ddd;text-decoration:none;font-size:.85rem;letter-spacing:.05em;transition:.3s}
+.nav-links a:hover{color:var(--gold)}
+.ticker-wrap{position:fixed;top:70px;left:0;right:0;z-index:100;border-bottom:1px solid var(--border);background:var(--bg);height:36px;overflow:hidden}
+.ticker{display:flex;align-items:center;height:100%;white-space:nowrap;animation:ticker 22s linear infinite}
+.ticker span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);padding:0 2.5rem}
+.ticker span.hi{color:var(--accent)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:180px 5vw 80px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.65));z-index:-1}
+.hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.15;z-index:-2;filter:grayscale(100%) contrast(120%)}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:.75rem}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold)}
+h1{font-size:clamp(3rem,10vw,8rem);font-weight:700;line-height:.92;letter-spacing:-.03em;margin-bottom:1rem}
+h1 em{font-style:normal;color:var(--accent)}
+.hero-tagline{font-size:clamp(1rem,2vw,1.4rem);color:var(--gold);font-weight:300;letter-spacing:.05em;margin-bottom:2rem;font-family:'JetBrains Mono',monospace}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--muted);font-weight:300;max-width:480px;line-height:1.6;margin-bottom:3.5rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:1rem}
+.btn-primary{font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 2rem;background:var(--accent);color:#fff;border:none;border-radius:3px;text-decoration:none;cursor:pointer;transition:opacity .15s,transform .15s,box-shadow .15s}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 0 30px rgba(230,57,70,.3)}
+.btn-ghost{font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 2rem;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:3px;text-decoration:none;cursor:pointer;transition:border-color .15s,transform .15s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+.models{border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr)}
+.model-item{padding:2.5rem 2rem;border-right:1px solid var(--border);transition:background .2s,transform .35s,box-shadow .35s;cursor:pointer}
 .model-item:last-child{border-right:none}
-.model-tag{font-size:10px;color:#e63946;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;font-family:'JetBrains Mono',monospace}
-.model-name{font-size:1.2rem;font-weight:700;margin-bottom:5px}
-.model-spec{font-size:.8rem;color:#555;font-family:'JetBrains Mono',monospace}
-.model-price{margin-top:15px;color:#bfa36a;font-weight:500}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #1e1e1e;border-bottom:1px solid #1e1e1e}
-.stat{padding:30px;text-align:center;border-right:1px solid #1e1e1e}
+.model-item:hover{background:var(--surface);transform:translateY(-8px);box-shadow:0 0 40px rgba(230,57,70,.08),0 0 100px rgba(230,57,70,.03)}
+.model-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;margin-bottom:.75rem}
+.model-name{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.5rem}
+.model-spec{font-size:.8rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.model-price{margin-top:1.25rem;font-size:1.1rem;font-weight:500;color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{padding:2.5rem 2rem;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-num{font-size:2rem;font-weight:700;color:#e63946;font-family:'JetBrains Mono',monospace}
-.stat-label{font-size:.75rem;color:#555;margin-top:5px}
-.footer{padding:60px 20px;text-align:center;border-top:1px solid #1e1e1e}
-.footer-brand{font-size:2rem;font-weight:700;color:#bfa36a;margin-bottom:10px}
-.footer-copy{color:#555;font-size:.8rem;font-family:'JetBrains Mono',monospace}
-@media(max-width:768px){.models{grid-template-columns:1fr}.model-item{border-right:none;border-bottom:1px solid #1e1e1e}.stats{grid-template-columns:repeat(2,1fr)}}
+.stat-num{font-size:2.5rem;font-weight:700;letter-spacing:-.04em;color:var(--accent);font-family:'JetBrains Mono',monospace}
+.stat-label{font-size:.8rem;color:var(--muted);letter-spacing:.05em;margin-top:.4rem}
+.footer{padding:120px 20px 60px;text-align:center;border-top:1px solid var(--border)}
+.footer-brand{font-size:36px;font-weight:700;color:var(--gold);margin-bottom:15px;letter-spacing:-.02em;text-shadow:0 0 10px rgba(191,163,106,.2)}
+.footer-copy{color:#666;letter-spacing:.15em;margin-bottom:20px;font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.footer-links a{color:var(--accent);text-decoration:none;font-size:.9rem;transition:.3s}
+.footer-links a:hover{color:var(--gold)}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+@media(max-width:768px){.nav{padding:0 20px}.nav-links{gap:15px}.nav-links a{font-size:.7rem}.models{grid-template-columns:1fr}.model-item{border-right:none;border-bottom:1px solid var(--border)}.model-item:last-child{border-bottom:none}.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}.stat:nth-child(3){border-right:1px solid var(--border)}}
 </style>
 </head>
 <body>
+<div id="loader">BLACKWORK</div>
+<div id="cursor-glow"></div>
 <nav class="nav">
   <div class="logo">BLACKWORK</div>
   <div class="nav-links">
     <a href="/catalog">Machines</a>
     <a href="/masters">Master</a>
     <a href="/setup_finder">Finder</a>
+    <a href="https://t.me/BlackWorkTattooBot">Telegram</a>
   </div>
 </nav>
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="hi">VOID REAPER</span><span>4.2mm blackout</span>
+    <span class="hi">SHADOW WOLF</span><span>3.8mm universal</span>
+    <span class="hi">DARK KRISHNA X</span><span>3.5mm lettering</span>
+    <span>worldwide</span><span>from $300/mo</span>
+    <span class="hi">VOID REAPER</span><span>4.2mm blackout</span>
+    <span class="hi">SHADOW WOLF</span><span>3.8mm universal</span>
+    <span class="hi">DARK KRISHNA X</span><span>3.5mm lettering</span>
+    <span>worldwide</span><span>from $300/mo</span>
+  </div>
+</div>
 <section class="hero">
-  <h1>BLACKWORK<br><em>TATTOO</em></h1>
-  <p class="hero-sub">Custom machines for elite artists. Hand-built for density. Dark Lettering and Blackwork specialists.</p>
-  <div>
-    <a href="/catalog" class="btn">View catalog</a>
-    <a href="/setup_finder" class="btn btn-outline">Find your setup</a>
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="/static/video/blackwork.mp4" type="video/mp4">
+  </video>
+  <p class="hero-eyebrow fade-in">Goa - Custom tattoo machines</p>
+  <h1 class="fade-in">BLACKWORK<br><em>TATTOO</em></h1>
+  <p class="hero-tagline fade-in">CUSTOM MACHINES FOR ELITE ARTISTS</p>
+  <p class="hero-sub fade-in">Hand-built for density. Engineered from scratch for Dark Lettering and Blackwork artists who do not compromise.</p>
+  <div class="hero-actions fade-in">
+    <a href="/catalog" class="btn-primary">View catalog</a>
+    <a href="/setup_finder" class="btn-ghost">Find your setup</a>
   </div>
 </section>
-<div class="models">
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackout</div><div class="model-name">VOID REAPER</div><div class="model-spec">Stroke 4.2mm</div><div class="model-price">from $300/mo</div></div>
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackwork</div><div class="model-name">SHADOW WOLF</div><div class="model-spec">Stroke 3.8mm</div><div class="model-price">from $350/mo</div></div>
-  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Lettering</div><div class="model-name">DARK KRISHNA X</div><div class="model-spec">Stroke 3.5mm</div><div class="model-price">from $400/mo</div></div>
+<div class="models fade-in">
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackout</div><div class="model-name">VOID REAPER</div><div class="model-spec">Stroke 4.2mm - large areas</div><div class="model-price">from $300/mo</div></div>
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Blackwork</div><div class="model-name">SHADOW WOLF</div><div class="model-spec">Stroke 3.8mm - universal</div><div class="model-price">from $350/mo</div></div>
+  <div class="model-item" onclick="location.href='/catalog'"><div class="model-tag">Lettering</div><div class="model-name">DARK KRISHNA X</div><div class="model-spec">Stroke 3.5mm - precision</div><div class="model-price">from $400/mo</div></div>
 </div>
-<div class="stats">
+<div class="stats fade-in">
   <div class="stat"><div class="stat-num">3</div><div class="stat-label">Custom models</div></div>
   <div class="stat"><div class="stat-num">3h+</div><div class="stat-label">Burn-in tested</div></div>
   <div class="stat"><div class="stat-num">1-2</div><div class="stat-label">Sessions to break even</div></div>
-  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support included</div></div>
 </div>
 <footer class="footer">
   <div class="footer-brand">BLACKWORK TATTOO</div>
   <div class="footer-copy">GOA - WORLDWIDE - CUSTOM MACHINES</div>
+  <div class="footer-links"><a href="https://t.me/BlackWorkTattooBot">@BlackWorkTattooBot</a></div>
 </footer>
 <script>
 if(window.Telegram&&window.Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand()}
+document.addEventListener('mousemove',function(e){var g=document.getElementById('cursor-glow');if(g){g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'}})
+window.addEventListener('load',function(){setTimeout(function(){var l=document.getElementById('loader');if(l){l.style.opacity='0';setTimeout(function(){l.remove()},800)}},800)})
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1})
+document.querySelectorAll('.fade-in').forEach(function(el){obs.observe(el)})
 </script>
 </body>
 </html>
