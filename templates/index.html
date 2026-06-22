@@ -12,9 +12,9 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:url("https://grainy-gradients.vercel.app/noise.svg");mix-blend-mode:overlay;z-index:9999}
-#cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(191,163,106,.18),transparent 70%);transform:translate(-50%,-50%);z-index:998;display:none}
-@media (hover:hover){#cursor-glow{display:block}}
-@media (hover:none){#cursor-glow{display:none}}
+cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(191,163,106,.18),transparent 70%);transform:translate(-50%,-50%);z-index:998;display:none}
+@media (hover:hover){cursor-glow{display:block}}
+@media (hover:none){cursor-glow{display:none}}
 #loader{position:fixed;inset:0;background:#000;display:flex;justify-content:center;align-items:center;font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--gold);letter-spacing:.15em;z-index:99999;transition:opacity .8s ease}
 .nav{position:fixed;top:0;left:0;right:0;height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 40px;backdrop-filter:blur(20px);background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.05);z-index:999}
 .logo{font-size:20px;font-weight:700;letter-spacing:.15em;color:var(--gold);text-shadow:0 0 10px rgba(191,163,106,.25),0 0 30px rgba(191,163,106,.12)}
