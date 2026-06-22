@@ -325,7 +325,7 @@ CONTENT_KEYS = {"why", "rent", "support", "for_whom", "models"}
 def main_keyboard(lang: str) -> InlineKeyboardMarkup:
     t = TEXTS[lang]
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}"))],
         [InlineKeyboardButton(text=t["btn_masters"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/masters")),
          InlineKeyboardButton(text=t["btn_setup"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/setup_finder"))],
         [InlineKeyboardButton(text=t["btn_models"], callback_data="models"),
@@ -341,7 +341,7 @@ def main_keyboard(lang: str) -> InlineKeyboardMarkup:
 def back_keyboard(lang: str) -> InlineKeyboardMarkup:
     t = TEXTS[lang]
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/catalog"))],
+        [InlineKeyboardButton(text=t["btn_catalog"], web_app=WebAppInfo(url=f"{WEBAPP_URL}"))],
         [InlineKeyboardButton(text=t["btn_masters"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/masters")),
          InlineKeyboardButton(text=t["btn_setup"], web_app=WebAppInfo(url=f"{WEBAPP_URL}/setup_finder"))],
         [InlineKeyboardButton(text=t["btn_contact"], url="https://t.me/rootxi")],
